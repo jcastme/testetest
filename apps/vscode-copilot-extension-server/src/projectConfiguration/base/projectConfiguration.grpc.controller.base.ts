@@ -16,20 +16,20 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
+import { GrpcMethod } from "@nestjs/microservices";
 import { ProjectConfigurationService } from "../projectConfiguration.service";
 import { ProjectConfigurationCreateInput } from "./ProjectConfigurationCreateInput";
-import { ProjectConfiguration } from "./ProjectConfiguration";
-import { ProjectConfigurationFindManyArgs } from "./ProjectConfigurationFindManyArgs";
+import { ProjectConfigurationWhereInput } from "./ProjectConfigurationWhereInput";
 import { ProjectConfigurationWhereUniqueInput } from "./ProjectConfigurationWhereUniqueInput";
+import { ProjectConfigurationFindManyArgs } from "./ProjectConfigurationFindManyArgs";
 import { ProjectConfigurationUpdateInput } from "./ProjectConfigurationUpdateInput";
+import { ProjectConfiguration } from "./ProjectConfiguration";
 
-export class ProjectConfigurationControllerBase {
+export class ProjectConfigurationGrpcControllerBase {
   constructor(protected readonly service: ProjectConfigurationService) {}
   @common.Post()
   @swagger.ApiCreatedResponse({ type: ProjectConfiguration })
-  @swagger.ApiBody({
-    type: ProjectConfigurationCreateInput,
-  })
+  @GrpcMethod("ProjectConfigurationService", "createProjectConfiguration")
   async createProjectConfiguration(
     @common.Body() data: ProjectConfigurationCreateInput
   ): Promise<ProjectConfiguration> {
@@ -46,6 +46,7 @@ export class ProjectConfigurationControllerBase {
   @common.Get()
   @swagger.ApiOkResponse({ type: [ProjectConfiguration] })
   @ApiNestedQuery(ProjectConfigurationFindManyArgs)
+  @GrpcMethod("ProjectConfigurationService", "projectConfigurations")
   async projectConfigurations(
     @common.Req() request: Request
   ): Promise<ProjectConfiguration[]> {
@@ -63,6 +64,7 @@ export class ProjectConfigurationControllerBase {
   @common.Get("/:id")
   @swagger.ApiOkResponse({ type: ProjectConfiguration })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @GrpcMethod("ProjectConfigurationService", "projectConfiguration")
   async projectConfiguration(
     @common.Param() params: ProjectConfigurationWhereUniqueInput
   ): Promise<ProjectConfiguration | null> {
@@ -85,9 +87,7 @@ export class ProjectConfigurationControllerBase {
   @common.Patch("/:id")
   @swagger.ApiOkResponse({ type: ProjectConfiguration })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiBody({
-    type: ProjectConfigurationUpdateInput,
-  })
+  @GrpcMethod("ProjectConfigurationService", "updateProjectConfiguration")
   async updateProjectConfiguration(
     @common.Param() params: ProjectConfigurationWhereUniqueInput,
     @common.Body() data: ProjectConfigurationUpdateInput
@@ -115,6 +115,7 @@ export class ProjectConfigurationControllerBase {
   @common.Delete("/:id")
   @swagger.ApiOkResponse({ type: ProjectConfiguration })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @GrpcMethod("ProjectConfigurationService", "deleteProjectConfiguration")
   async deleteProjectConfiguration(
     @common.Param() params: ProjectConfigurationWhereUniqueInput
   ): Promise<ProjectConfiguration | null> {

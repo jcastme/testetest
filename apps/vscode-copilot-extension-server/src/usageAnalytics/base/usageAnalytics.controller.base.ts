@@ -27,6 +27,9 @@ export class UsageAnalyticsControllerBase {
   constructor(protected readonly service: UsageAnalyticsService) {}
   @common.Post()
   @swagger.ApiCreatedResponse({ type: UsageAnalytics })
+  @swagger.ApiBody({
+    type: UsageAnalyticsCreateInput,
+  })
   async createUsageAnalytics(
     @common.Body() data: UsageAnalyticsCreateInput
   ): Promise<UsageAnalytics> {
@@ -82,6 +85,9 @@ export class UsageAnalyticsControllerBase {
   @common.Patch("/:id")
   @swagger.ApiOkResponse({ type: UsageAnalytics })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @swagger.ApiBody({
+    type: UsageAnalyticsUpdateInput,
+  })
   async updateUsageAnalytics(
     @common.Param() params: UsageAnalyticsWhereUniqueInput,
     @common.Body() data: UsageAnalyticsUpdateInput

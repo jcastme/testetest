@@ -27,6 +27,9 @@ export class CustomTemplateControllerBase {
   constructor(protected readonly service: CustomTemplateService) {}
   @common.Post()
   @swagger.ApiCreatedResponse({ type: CustomTemplate })
+  @swagger.ApiBody({
+    type: CustomTemplateCreateInput,
+  })
   async createCustomTemplate(
     @common.Body() data: CustomTemplateCreateInput
   ): Promise<CustomTemplate> {
@@ -82,6 +85,9 @@ export class CustomTemplateControllerBase {
   @common.Patch("/:id")
   @swagger.ApiOkResponse({ type: CustomTemplate })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
+  @swagger.ApiBody({
+    type: CustomTemplateUpdateInput,
+  })
   async updateCustomTemplate(
     @common.Param() params: CustomTemplateWhereUniqueInput,
     @common.Body() data: CustomTemplateUpdateInput

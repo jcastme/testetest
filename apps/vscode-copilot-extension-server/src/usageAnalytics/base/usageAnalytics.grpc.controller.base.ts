@@ -16,24 +16,24 @@ import * as errors from "../../errors";
 import { Request } from "express";
 import { plainToClass } from "class-transformer";
 import { ApiNestedQuery } from "../../decorators/api-nested-query.decorator";
-import { ProjectConfigurationService } from "../projectConfiguration.service";
-import { ProjectConfigurationCreateInput } from "./ProjectConfigurationCreateInput";
-import { ProjectConfiguration } from "./ProjectConfiguration";
-import { ProjectConfigurationFindManyArgs } from "./ProjectConfigurationFindManyArgs";
-import { ProjectConfigurationWhereUniqueInput } from "./ProjectConfigurationWhereUniqueInput";
-import { ProjectConfigurationUpdateInput } from "./ProjectConfigurationUpdateInput";
+import { GrpcMethod } from "@nestjs/microservices";
+import { UsageAnalyticsService } from "../usageAnalytics.service";
+import { UsageAnalyticsCreateInput } from "./UsageAnalyticsCreateInput";
+import { UsageAnalyticsWhereInput } from "./UsageAnalyticsWhereInput";
+import { UsageAnalyticsWhereUniqueInput } from "./UsageAnalyticsWhereUniqueInput";
+import { UsageAnalyticsFindManyArgs } from "./UsageAnalyticsFindManyArgs";
+import { UsageAnalyticsUpdateInput } from "./UsageAnalyticsUpdateInput";
+import { UsageAnalytics } from "./UsageAnalytics";
 
-export class ProjectConfigurationControllerBase {
-  constructor(protected readonly service: ProjectConfigurationService) {}
+export class UsageAnalyticsGrpcControllerBase {
+  constructor(protected readonly service: UsageAnalyticsService) {}
   @common.Post()
-  @swagger.ApiCreatedResponse({ type: ProjectConfiguration })
-  @swagger.ApiBody({
-    type: ProjectConfigurationCreateInput,
-  })
-  async createProjectConfiguration(
-    @common.Body() data: ProjectConfigurationCreateInput
-  ): Promise<ProjectConfiguration> {
-    return await this.service.createProjectConfiguration({
+  @swagger.ApiCreatedResponse({ type: UsageAnalytics })
+  @GrpcMethod("UsageAnalyticsService", "createUsageAnalytics")
+  async createUsageAnalytics(
+    @common.Body() data: UsageAnalyticsCreateInput
+  ): Promise<UsageAnalytics> {
+    return await this.service.createUsageAnalytics({
       data: data,
       select: {
         createdAt: true,
@@ -44,13 +44,14 @@ export class ProjectConfigurationControllerBase {
   }
 
   @common.Get()
-  @swagger.ApiOkResponse({ type: [ProjectConfiguration] })
-  @ApiNestedQuery(ProjectConfigurationFindManyArgs)
-  async projectConfigurations(
+  @swagger.ApiOkResponse({ type: [UsageAnalytics] })
+  @ApiNestedQuery(UsageAnalyticsFindManyArgs)
+  @GrpcMethod("UsageAnalyticsService", "usageAnalyticsItems")
+  async usageAnalyticsItems(
     @common.Req() request: Request
-  ): Promise<ProjectConfiguration[]> {
-    const args = plainToClass(ProjectConfigurationFindManyArgs, request.query);
-    return this.service.projectConfigurations({
+  ): Promise<UsageAnalytics[]> {
+    const args = plainToClass(UsageAnalyticsFindManyArgs, request.query);
+    return this.service.usageAnalyticsItems({
       ...args,
       select: {
         createdAt: true,
@@ -61,12 +62,13 @@ export class ProjectConfigurationControllerBase {
   }
 
   @common.Get("/:id")
-  @swagger.ApiOkResponse({ type: ProjectConfiguration })
+  @swagger.ApiOkResponse({ type: UsageAnalytics })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async projectConfiguration(
-    @common.Param() params: ProjectConfigurationWhereUniqueInput
-  ): Promise<ProjectConfiguration | null> {
-    const result = await this.service.projectConfiguration({
+  @GrpcMethod("UsageAnalyticsService", "usageAnalytics")
+  async usageAnalytics(
+    @common.Param() params: UsageAnalyticsWhereUniqueInput
+  ): Promise<UsageAnalytics | null> {
+    const result = await this.service.usageAnalytics({
       where: params,
       select: {
         createdAt: true,
@@ -83,17 +85,15 @@ export class ProjectConfigurationControllerBase {
   }
 
   @common.Patch("/:id")
-  @swagger.ApiOkResponse({ type: ProjectConfiguration })
+  @swagger.ApiOkResponse({ type: UsageAnalytics })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  @swagger.ApiBody({
-    type: ProjectConfigurationUpdateInput,
-  })
-  async updateProjectConfiguration(
-    @common.Param() params: ProjectConfigurationWhereUniqueInput,
-    @common.Body() data: ProjectConfigurationUpdateInput
-  ): Promise<ProjectConfiguration | null> {
+  @GrpcMethod("UsageAnalyticsService", "updateUsageAnalytics")
+  async updateUsageAnalytics(
+    @common.Param() params: UsageAnalyticsWhereUniqueInput,
+    @common.Body() data: UsageAnalyticsUpdateInput
+  ): Promise<UsageAnalytics | null> {
     try {
-      return await this.service.updateProjectConfiguration({
+      return await this.service.updateUsageAnalytics({
         where: params,
         data: data,
         select: {
@@ -113,13 +113,14 @@ export class ProjectConfigurationControllerBase {
   }
 
   @common.Delete("/:id")
-  @swagger.ApiOkResponse({ type: ProjectConfiguration })
+  @swagger.ApiOkResponse({ type: UsageAnalytics })
   @swagger.ApiNotFoundResponse({ type: errors.NotFoundException })
-  async deleteProjectConfiguration(
-    @common.Param() params: ProjectConfigurationWhereUniqueInput
-  ): Promise<ProjectConfiguration | null> {
+  @GrpcMethod("UsageAnalyticsService", "deleteUsageAnalytics")
+  async deleteUsageAnalytics(
+    @common.Param() params: UsageAnalyticsWhereUniqueInput
+  ): Promise<UsageAnalytics | null> {
     try {
-      return await this.service.deleteProjectConfiguration({
+      return await this.service.deleteUsageAnalytics({
         where: params,
         select: {
           createdAt: true,
