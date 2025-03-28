@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+                 package usageAnalytics;
+service UsageAnalyticsService {
+ rpc createUsageAnalytics (UsageAnalyticsCreateInput) returns (UsageAnalytics) {}
+rpc usageAnalyticsItems (findManyParams) returns (stream UsageAnalytics) {}
+rpc usageAnalytics (UsageAnalyticsWhereUniqueInput) returns (UsageAnalytics) {}
+rpc updateUsageAnalytics (UsageAnalyticsUpdateInput) returns (UsageAnalytics) {}
+rpc deleteUsageAnalytics (UsageAnalyticsWhereUniqueInput) returns (UsageAnalytics) {} 
+ }
+message UsageAnalyticsCreateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message UsageAnalytics {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message UsageAnalyticsWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message UsageAnalyticsUpdateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message findManyParams {
+
+};

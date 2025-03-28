@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+                 package projectConfiguration;
+service ProjectConfigurationService {
+ rpc createProjectConfiguration (ProjectConfigurationCreateInput) returns (ProjectConfiguration) {}
+rpc projectConfigurations (findManyParams) returns (stream ProjectConfiguration) {}
+rpc projectConfiguration (ProjectConfigurationWhereUniqueInput) returns (ProjectConfiguration) {}
+rpc updateProjectConfiguration (ProjectConfigurationUpdateInput) returns (ProjectConfiguration) {}
+rpc deleteProjectConfiguration (ProjectConfigurationWhereUniqueInput) returns (ProjectConfiguration) {} 
+ }
+message ProjectConfigurationCreateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message ProjectConfiguration {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message ProjectConfigurationWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message ProjectConfigurationUpdateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message findManyParams {
+
+};

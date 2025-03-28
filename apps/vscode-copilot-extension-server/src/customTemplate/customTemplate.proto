@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+                 package customTemplate;
+service CustomTemplateService {
+ rpc createCustomTemplate (CustomTemplateCreateInput) returns (CustomTemplate) {}
+rpc customTemplates (findManyParams) returns (stream CustomTemplate) {}
+rpc customTemplate (CustomTemplateWhereUniqueInput) returns (CustomTemplate) {}
+rpc updateCustomTemplate (CustomTemplateUpdateInput) returns (CustomTemplate) {}
+rpc deleteCustomTemplate (CustomTemplateWhereUniqueInput) returns (CustomTemplate) {} 
+ }
+message CustomTemplateCreateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message CustomTemplate {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message CustomTemplateWhereUniqueInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message CustomTemplateUpdateInput {
+string createdAt = 1;
+string id = 2;
+string updatedAt = 3;
+};
+message findManyParams {
+
+};
